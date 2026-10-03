@@ -544,19 +544,24 @@
   </div>
 </div>
  </div>
-
 <!-- МОДАЛЬНЫЙ ПЛЕЕР ВИДЕО -->
 <div class="video-modal" id="videoModal">
-  ...
+  <button class="video-modal-close" id="videoModalClose">×</button>
+  <div class="video-modal-content">
+    <video id="modalVideo" controls playsinline></video>
+  </div>
 </div>
 
 <!-- МОДАЛЬНОЕ ОКНО -->
 <div class="modal-overlay" id="modalOverlay">
-  ...
+  <div class="modal">
+    <button class="modal-close" id="modalClose">×</button>
+    <h2 id="modalTitle">Заголовок</h2>
+    <div id="modalText"></div>
+    <div id="modalExtra"></div>
+  </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/..."></script>   ← строка 546
-<script src="https://www.gstatic.com/firebasejs/..."></script>   ← строка 547
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
