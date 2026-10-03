@@ -558,6 +558,28 @@
   };
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
+ 
+/* ===== ЭКРАН ЗАГРУЗКИ ===== */
+const loadingScreen = document.getElementById('loadingScreen');
+const loaderPercent = document.getElementById('loaderPercent');
+
+let percent = 0;
+const loadInterval = setInterval(() => {
+  percent += Math.random() * 8 + 2;
+  if (percent >= 100) {
+    percent = 100;
+    loaderPercent.textContent = '100%';
+    clearInterval(loadInterval);
+    setTimeout(() => {
+      loadingScreen.classList.add('fade-out');
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+      }, 800);
+    }, 300);
+  } else {
+    loaderPercent.textContent = Math.floor(percent) + '%';
+  }
+}, 80);
    // ==== ЗВУК КЛИКА ====
   const clickSound = new Audio('click.mp3');
   clickSound.volume = 0.5;
