@@ -431,7 +431,28 @@
 </head>
 <body>
 
-<div class="intro-line"></div>
+/* ===== ЭКРАН ЗАГРУЗКИ ===== */
+const loadingScreen = document.getElementById('loadingScreen');
+const loaderPercent = document.getElementById('loaderPercent');
+
+let percent = 0;
+const loadInterval = setInterval(() => {
+  percent += Math.random() * 8 + 2;
+  if (percent >= 100) {
+    percent = 100;
+    loaderPercent.textContent = '100%';
+    clearInterval(loadInterval);
+    setTimeout(() => {
+      loadingScreen.classList.add('fade-out');
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+      }, 800);
+    }, 300);
+  } else {
+    loaderPercent.textContent = Math.floor(percent) + '%';
+  }
+}, 80);
+
 <div class="roll-line" id="rollLine" style="position:fixed;left:50%;top:50%;width:90vw;height:4px;background:linear-gradient(90deg,#00ff88,#00e5ff,#ff2d55);transform:translate(-50%,-50%) scaleX(0);transform-origin:center;border-radius:4px;z-index:200;pointer-events:none;box-shadow:0 0 40px rgba(0,255,136,.9);transition:transform .8s cubic-bezier(.7,0,.3,1);"></div>
 
 <div class="scene">
