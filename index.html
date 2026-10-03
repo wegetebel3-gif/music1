@@ -513,7 +513,7 @@
   function playClick() {
     clickSound.currentTime = 0;
     clickSound.play().catch(() => {});
-  }
+  }document.addEventListener('click',(e)=>{const btn=e.target.closest('button, .btn, nav a, .back-btn, .donate-btn');if(btn)playClick();});
  
   /* ===== ТРЕКИ ===== */
   const TRACKS = [
