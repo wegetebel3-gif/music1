@@ -506,6 +506,14 @@
   };
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
+   // ==== ЗВУК КЛИКА ====
+  const clickSound = new Audio('click.mp3');
+  clickSound.volume = 0.5;
+
+  function playClick() {
+    clickSound.currentTime = 0;
+    clickSound.play().catch(() => {});
+  }
 
   /* ===== ТРЕКИ ===== */
   const TRACKS = [
