@@ -560,6 +560,7 @@
   const db = firebase.firestore();
  
 /* ===== ЭКРАН ЗАГРУЗКИ ===== */
+ window.addEventListener('DOMContentLoaded', () => {
 const loadingScreen = document.getElementById('loadingScreen');
 const loaderPercent = document.getElementById('loaderPercent');
 
@@ -580,6 +581,7 @@ const loadInterval = setInterval(() => {
     loaderPercent.textContent = Math.floor(percent) + '%';
   }
 }, 80);
+  });
    // ==== ЗВУК КЛИКА ====
   const clickSound = new Audio('click.mp3');
   clickSound.volume = 0.5;
