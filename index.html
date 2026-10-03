@@ -49,12 +49,19 @@
   header {
     position: sticky; top:0; left:0; right:0;
     padding: 20px 40px;
-    display:flex; justify-content: flex-end; align-items:center;
+    display:flex; justify-content: space-between; align-items:center;
     background: rgba(10,10,10,0.85); backdrop-filter: blur(10px);
     z-index:100; border-bottom:1px solid #1f1f1f;
   }
   nav { display: flex; align-items: center; }
-  nav a { color:#ccc; text-decoration:none; margin-left:35px; font-weight:600; font-size:16px; transition:color .3s; cursor:pointer; }
+  nav.left-nav { justify-content: flex-start; }
+  nav.right-nav { justify-content: flex-end; }
+  nav a {
+    color:#ccc; text-decoration:none;
+    margin-left:35px; font-weight:600; font-size:16px;
+    transition: color .3s; cursor:pointer;
+  }
+  nav.left-nav a { margin-left: 0; }
   nav a:hover { color:#00ff88; }
 
   .hero { min-height:90vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:60px 20px; position:relative; }
@@ -65,6 +72,23 @@
       radial-gradient(circle at 80% 70%, rgba(255,45,85,.15), transparent 40%);
     pointer-events:none;
   }
+
+  .hero-title {
+    font-size: clamp(32px, 6vw, 64px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    text-align: center;
+    background: linear-gradient(90deg, #00ff88, #00e5ff, #ff2d55);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glow 3s infinite alternate;
+    position: relative;
+    z-index: 1;
+    line-height: 1.2;
+    padding: 0 20px;
+  }
+
   .btn {
     display:inline-block; padding:18px 50px;
     background:linear-gradient(90deg,#00ff88,#00e5ff);
@@ -85,15 +109,18 @@
     display: flex; justify-content: center; align-items: center;
     z-index: 500; opacity: 0; pointer-events: none;
     transition: opacity .3s ease;
+    padding: 20px;
   }
   .modal-overlay.show { opacity: 1; pointer-events: auto; }
   .modal {
     background: #111; border: 1px solid #1f1f1f; border-radius: 24px;
-    padding: 50px 45px; max-width: 500px; width: 90%;
+    padding: 50px 45px; max-width: 500px; width: 100%;
     text-align: center; position: relative;
     transform: scale(0.8);
     transition: transform .35s cubic-bezier(.7,0,.3,1);
     box-shadow: 0 0 60px rgba(0,255,136,.15);
+    max-height: 90vh;
+    overflow-y: auto;
   }
   .modal-overlay.show .modal { transform: scale(1); }
   .modal::before {
@@ -138,9 +165,73 @@
     background: transparent; border: none;
     color: #666; font-size: 28px; cursor: pointer;
     transition: color .3s; line-height: 1;
+    z-index: 10;
   }
   .modal-close:hover { color: #ff2d55; }
 
+  /* ===== ОТЗЫВЫ ===== */
+  .reviews-form { margin-top: 20px; text-align: left; }
+  .reviews-form input,
+  .reviews-form textarea {
+    width: 100%; padding: 12px 16px; margin-bottom: 12px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px; color: #fff; font-size: 15px;
+    font-family: inherit; outline: none;
+    transition: all .3s; resize: vertical;
+  }
+  .reviews-form input:focus,
+  .reviews-form textarea:focus {
+    border-color: #00ff88;
+    background: rgba(0,255,136,.05);
+    box-shadow: 0 0 20px rgba(0,255,136,.2);
+  }
+  .reviews-form textarea { min-height: 90px; }
+  .reviews-form button {
+    width: 100%; padding: 14px;
+    background: linear-gradient(90deg, #00ff88, #00e5ff);
+    color: #000; font-weight: 900; font-size: 15px;
+    border: none; border-radius: 50px; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 1px;
+    transition: all .3s;
+    box-shadow: 0 0 25px rgba(0,255,136,.4);
+  }
+  .reviews-form button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 40px rgba(0,255,136,.8);
+  }
+  .reviews-form button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .reviews-list {
+    margin-top: 25px; text-align: left;
+    max-height: 300px; overflow-y: auto;
+    padding-right: 5px;
+  }
+  .reviews-list::-webkit-scrollbar { width: 6px; }
+  .reviews-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00ff88, #00e5ff);
+    border-radius: 3px;
+  }
+  .review-item {
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 10px;
+    animation: reviewIn 0.5s ease;
+  }
+  @keyframes reviewIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .review-header {
+    display: flex; justify-content: space-between;
+    margin-bottom: 6px; font-size: 13px;
+  }
+  .review-name { color: #00ff88; font-weight: 700; }
+  .review-date { color: #666; }
+  .review-text { color: #ddd; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+  .reviews-loading { text-align: center; color: #888; padding: 20px; font-size: 14px; }
+
+  /* ===== МУЗЫКА ===== */
   .music-page {
     position: absolute; inset: 0;
     background:#000;
@@ -184,10 +275,8 @@
     padding: 10px 18px;
     background: rgba(255,255,255,.05);
     border: 1px solid rgba(255,255,255,.1);
-    border-radius: 50px;
-    color: #fff; font-size: 14px;
-    outline: none; width: 220px;
-    transition: all .3s;
+    border-radius: 50px; color: #fff; font-size: 14px;
+    outline: none; width: 220px; transition: all .3s;
   }
   .search-box:focus { border-color: #00ff88; background: rgba(0,255,136,.05); box-shadow: 0 0 20px rgba(0,255,136,.3); }
   .search-box::placeholder { color: #666; }
@@ -223,62 +312,43 @@
   .track-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
-    max-width: 1400px;
-    margin: 0 auto;
+    gap: 20px; max-width: 1400px; margin: 0 auto;
   }
-
   .track {
     background: rgba(255,255,255,.03);
     border: 1px solid rgba(255,255,255,.08);
-    border-radius: 15px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all .3s;
-    position: relative;
+    border-radius: 15px; overflow: hidden;
+    cursor: pointer; transition: all .3s; position: relative;
   }
   .track:hover {
     transform: translateY(-5px);
     border-color: rgba(0,255,136,.5);
     box-shadow: 0 10px 40px rgba(0,255,136,.2);
   }
-  .track.active {
-    border-color: #00ff88;
-    box-shadow: 0 0 40px rgba(0,255,136,.4);
-  }
+  .track.active { border-color: #00ff88; box-shadow: 0 0 40px rgba(0,255,136,.4); }
   .track.hidden { display: none; }
 
   .track-video {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #111;
-    overflow: hidden;
+    position: relative; width: 100%; aspect-ratio: 16 / 9;
+    background: #111; overflow: hidden;
   }
   .track-video video {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
+    width: 100%; height: 100%; object-fit: cover;
+    display: block; pointer-events: none;
   }
   .track-play-overlay {
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    background: rgba(0,0,0,.4);
-    transition: background .3s;
+    background: rgba(0,0,0,.4); transition: background .3s;
     pointer-events: none;
   }
   .track:hover .track-play-overlay { background: rgba(0,0,0,.15); }
   .track-play-overlay::before {
     content: '▶';
-    width: 55px; height: 55px;
-    border-radius: 50%;
+    width: 55px; height: 55px; border-radius: 50%;
     background: linear-gradient(135deg, #00ff88, #00e5ff);
-    color: #000;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    padding-left: 5px;
+    color: #000; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; padding-left: 5px;
     box-shadow: 0 0 30px rgba(0,255,136,.8);
     transition: transform .3s;
   }
@@ -294,9 +364,7 @@
     to { transform: scale(1.15); }
   }
 
-  .track-info {
-    padding: 15px 18px;
-  }
+  .track-info { padding: 15px 18px; }
   .track-name {
     font-weight: 700; font-size: 15px;
     color: #fff; margin-bottom: 4px;
@@ -325,39 +393,28 @@
     background: rgba(0,0,0,.95);
     backdrop-filter: blur(15px);
     display: flex; align-items: center; justify-content: center;
-    z-index: 600;
-    opacity: 0; pointer-events: none;
-    transition: opacity .3s;
-    padding: 20px;
+    z-index: 600; opacity: 0; pointer-events: none;
+    transition: opacity .3s; padding: 20px;
   }
   .video-modal.show { opacity: 1; pointer-events: auto; }
   .video-modal-content {
-    position: relative;
-    max-width: 90vw;
-    max-height: 90vh;
-    border-radius: 20px;
-    overflow: hidden;
+    position: relative; max-width: 90vw; max-height: 90vh;
+    border-radius: 20px; overflow: hidden;
     box-shadow:
       0 0 60px rgba(0,255,136,.5),
       0 0 120px rgba(255,45,85,.3);
     border: 2px solid rgba(0,255,136,.4);
   }
   .video-modal video {
-    display: block;
-    max-width: 90vw;
-    max-height: 90vh;
+    display: block; max-width: 90vw; max-height: 90vh;
     background: #000;
   }
   .video-modal-close {
-    position: absolute;
-    top: 20px; right: 20px;
-    width: 45px; height: 45px;
-    border-radius: 50%;
+    position: absolute; top: 20px; right: 20px;
+    width: 45px; height: 45px; border-radius: 50%;
     background: linear-gradient(135deg, #ff2d55, #ff8800);
-    border: none; color: #fff;
-    font-size: 24px; cursor: pointer;
-    z-index: 10;
-    transition: transform .2s;
+    border: none; color: #fff; font-size: 24px; cursor: pointer;
+    z-index: 10; transition: transform .2s;
   }
   .video-modal-close:hover { transform: scale(1.1) rotate(90deg); }
 
@@ -366,6 +423,9 @@
     .music-content { padding: 20px 15px 60px 15px; }
     .music-header { padding: 15px 20px; }
     .search-box { width: 100%; }
+    header { padding: 15px 20px; }
+    nav a { font-size: 14px; margin-left: 20px; }
+    .modal { padding: 35px 25px; }
   }
 </style>
 </head>
@@ -378,18 +438,21 @@
 
   <div class="main-page" id="mainPage">
     <header>
-      <nav>
+      <nav class="left-nav">
+        <a id="reviewsLink">Отзывы</a>
+      </nav>
+      <nav class="right-nav">
         <a id="featuresLink">Фишки</a>
-        <a id="tariffsLink">Тарифы</a>
         <a id="aboutLink">О нас</a>
       </nav>
     </header>
 
     <section class="hero">
+      <h1 class="hero-title">Песни на ваш вкус и цвет</h1>
       <button class="btn" id="goBtn">Погнали 🔥</button>
     </section>
 
-    <footer>© 2026 — Мусик корпорейшон. Все права защищены.</footer>
+    <footer>© 2026 — Все права защищены.</footer>
   </div>
 
   <div class="music-page" id="musicPage">
@@ -423,16 +486,28 @@
   <div class="modal">
     <button class="modal-close" id="modalClose">×</button>
     <h2 id="modalTitle">Заголовок</h2>
-    <p id="modalText">Текст</p>
+    <div id="modalText" style="color:#bbb;font-size:18px;line-height:1.7;margin-bottom:10px;"></div>
     <div id="modalExtra"></div>
   </div>
 </div>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <script>
-  /* ============================================
-     📌 ТВОИ ТРЕКИ
-     10 файлов: 1.mp4 ... 10.mp4
-     ============================================ */
+  /* ===== FIREBASE ===== */
+  const firebaseConfig = {
+    apiKey: "AIzaSyAnZKHJ5apEt865aNQnQF6PLuRYY0q_6jA",
+    authDomain: "music1-39deb.firebaseapp.com",
+    projectId: "music1-39deb",
+    storageBucket: "music1-39deb.firebasestorage.app",
+    messagingSenderId: "862127799209",
+    appId: "1:862127799209:web:fc3a14111d886299f6e2b8",
+    measurementId: "G-K2J47VGRZQ"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  /* ===== ТРЕКИ ===== */
   const TRACKS = [
     { name: 'Never Gonna Give You Up',   artist: 'Rick Astley',     src: '1.mp4' },
     { name: 'Видео 2',                   artist: '—',               src: '2.mp4' },
@@ -524,16 +599,124 @@
     }, 700);
   });
 
+  /* ===== МОДАЛКИ ===== */
   const modalOverlay = document.getElementById('modalOverlay');
   const modalTitle   = document.getElementById('modalTitle');
   const modalText    = document.getElementById('modalText');
   const modalExtra   = document.getElementById('modalExtra');
   const modalClose   = document.getElementById('modalClose');
+  const reviewsLink  = document.getElementById('reviewsLink');
   const featuresLink = document.getElementById('featuresLink');
-  const tariffsLink  = document.getElementById('tariffsLink');
   const aboutLink    = document.getElementById('aboutLink');
   const donateBtn    = document.getElementById('donateBtn');
 
+  // ==== ОТЗЫВЫ ====
+  let reviewsUnsubscribe = null;
+
+  reviewsLink.addEventListener('click', () => {
+    modalTitle.textContent = 'Отзывы';
+    modalText.innerHTML = 'Оставьте свой отзыв о сайте:';
+    modalExtra.innerHTML = `
+      <div class="reviews-form">
+        <input type="text" id="reviewName" placeholder="Ваше имя" maxlength="30">
+        <textarea id="reviewText" placeholder="Ваш отзыв..." maxlength="500"></textarea>
+        <button id="reviewSubmit">Отправить</button>
+      </div>
+      <div class="reviews-list" id="reviewsList">
+        <div class="reviews-loading">Загрузка отзывов...</div>
+      </div>
+    `;
+    modalOverlay.classList.add('show');
+    loadReviews();
+    setupReviewForm();
+  });
+
+  function setupReviewForm() {
+    const btn = document.getElementById('reviewSubmit');
+    if (!btn) return;
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const nameEl = document.getElementById('reviewName');
+      const textEl = document.getElementById('reviewText');
+      const name = nameEl.value.trim();
+      const text = textEl.value.trim();
+
+      if (!name || !text) {
+        alert('Заполните имя и отзыв!');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Отправка...';
+
+      try {
+        await db.collection('reviews').add({
+          name: name,
+          text: text,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        nameEl.value = '';
+        textEl.value = '';
+        btn.textContent = '✅ Отправлено!';
+        setTimeout(() => {
+          btn.textContent = 'Отправить';
+          btn.disabled = false;
+        }, 1500);
+      } catch (err) {
+        console.error(err);
+        btn.textContent = 'Ошибка!';
+        setTimeout(() => {
+          btn.textContent = 'Отправить';
+          btn.disabled = false;
+        }, 1500);
+      }
+    });
+  }
+
+  function loadReviews() {
+    const listEl = document.getElementById('reviewsList');
+    if (!listEl) return;
+    if (reviewsUnsubscribe) reviewsUnsubscribe();
+
+    reviewsUnsubscribe = db.collection('reviews')
+      .orderBy('createdAt', 'desc')
+      .limit(50)
+      .onSnapshot((snapshot) => {
+        if (snapshot.empty) {
+          listEl.innerHTML = '<div class="reviews-loading">Пока отзывов нет. Будьте первым!</div>';
+          return;
+        }
+        listEl.innerHTML = '';
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          const date = data.createdAt ? data.createdAt.toDate() : new Date();
+          const dateStr = date.toLocaleDateString('ru-RU') + ' ' +
+                         date.toLocaleTimeString('ru-RU', {hour: '2-digit', minute: '2-digit'});
+
+          const div = document.createElement('div');
+          div.className = 'review-item';
+          div.innerHTML = `
+            <div class="review-header">
+              <span class="review-name">${escapeHtml(data.name || 'Аноним')}</span>
+              <span class="review-date">${dateStr}</span>
+            </div>
+            <div class="review-text">${escapeHtml(data.text || '')}</div>
+          `;
+          listEl.appendChild(div);
+        });
+      }, (err) => {
+        console.error(err);
+        listEl.innerHTML = '<div class="reviews-loading">Ошибка загрузки отзывов</div>';
+      });
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // ==== ФИШКИ ====
   featuresLink.addEventListener('click', () => {
     modalTitle.textContent = 'Фишки';
     modalText.innerHTML = '<div class="empty-message">Тут их нет</div>';
@@ -541,22 +724,16 @@
     modalOverlay.classList.add('show');
   });
 
-  tariffsLink.addEventListener('click', () => {
-    modalTitle.textContent = 'Тарифы';
-    modalText.innerHTML = 'Скинте 20 руб карта — 2202 2092 0978 6770';
-    modalExtra.innerHTML = '';
-    modalOverlay.classList.add('show');
-  });
-
+  // ==== О НАС ====
   aboutLink.addEventListener('click', () => {
     modalTitle.textContent = 'О нас';
     modalText.innerHTML = 'По вопросам пишите на почту:';
     modalExtra.innerHTML = `
-      <button class="email" id="copyBtn">📋 Скопировать почту</button>
+      <button class="email" id="copyBtn2">📋 Скопировать почту</button>
       <span class="email-sub">Почта: <strong>wegetebel3@gmail.com</strong></span>
     `;
     modalOverlay.classList.add('show');
-    document.getElementById('copyBtn').addEventListener('click', (e) => {
+    document.getElementById('copyBtn2').addEventListener('click', (e) => {
       e.stopPropagation();
       const btn = e.currentTarget;
       if (navigator.clipboard) navigator.clipboard.writeText('wegetebel3@gmail.com').then(() => {
@@ -567,6 +744,7 @@
     });
   });
 
+  // ==== ДОНАТ ====
   donateBtn.addEventListener('click', () => {
     modalTitle.textContent = '💰 Донат';
     modalText.innerHTML = 'Понравилось? Скинь 20 руб 🙏<br><br>Карта:';
@@ -586,15 +764,22 @@
     });
   });
 
-  modalClose.addEventListener('click', () => modalOverlay.classList.remove('show'));
+  modalClose.addEventListener('click', () => {
+    modalOverlay.classList.remove('show');
+    if (reviewsUnsubscribe) reviewsUnsubscribe();
+  });
   modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) modalOverlay.classList.remove('show');
+    if (e.target === modalOverlay) {
+      modalOverlay.classList.remove('show');
+      if (reviewsUnsubscribe) reviewsUnsubscribe();
+    }
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       modalVideo.pause();
       videoModal.classList.remove('show');
       modalOverlay.classList.remove('show');
+      if (reviewsUnsubscribe) reviewsUnsubscribe();
     }
   });
 </script>
