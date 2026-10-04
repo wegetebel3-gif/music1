@@ -968,7 +968,8 @@ loadLikes().then(likes => {
   // ==== ФИШКИ ====
   featuresLink.addEventListener('click', () => {
     modalTitle.textContent = 'Фишки';
-    modalText.innerHTML = '<div class="empty-message">Тут их нет</div>';
+    modalText.innerHTML = '<div class="empty-message">Песни на любой вкус и цвет
+    если песни нет но пишите в отзывах!</div>';
     modalExtra.innerHTML = '';
     modalOverlay.classList.add('show');
   });
@@ -976,7 +977,7 @@ loadLikes().then(likes => {
   // ==== О НАС ====
   aboutLink.addEventListener('click', () => {
     modalTitle.textContent = 'О нас';
-    modalText.innerHTML = 'По вопросам пишите на почту:';
+    modalText.innerHTML = 'Я маленькая личинка чуувствую себя чемно большим.По вопросам пишите на почту:';
     modalExtra.innerHTML = `
       <button class="email" id="copyBtn2">📋 Скопировать почту</button>
       <span class="email-sub">Почта: <strong>wegetebel3@gmail.com</strong></span>
