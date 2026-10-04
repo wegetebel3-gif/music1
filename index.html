@@ -682,6 +682,19 @@ const loadInterval = setInterval(() => {
   }
 }, 80);
   });
+ /* ===== ФОНОВАЯ МУЗЫКА ===== */
+const bgMusic = new Audio('background.mp3');
+bgMusic.loop = true;
+bgMusic.volume = 0.08;
+
+let bgStarted = false;
+document.addEventListener('click', () => {
+  if (!bgStarted) {
+    bgStarted = true;
+    bgMusic.play().catch(() => {});
+  }
+}, { once: true });
+
    // ==== ЗВУК КЛИКА ====
   const clickSound = new Audio('click.mp3');
   clickSound.volume = 0.5;
@@ -804,6 +817,7 @@ loadLikes().then(likes => {
   const videoModalClose = document.getElementById('videoModalClose');
 
   function openVideoModal(i) {
+    bgMusic.pause();
     const t = TRACKS[i]; if (!t) return;
     modalVideo.src = t.src;
     modalVideo.play().catch(() => {});
@@ -815,11 +829,16 @@ loadLikes().then(likes => {
   videoModalClose.addEventListener('click', () => {
     modalVideo.pause();
     videoModal.classList.remove('show');
+     bgMusic.play().catch(() => {});
+   
+modalVideo.addEventListener('ended', () => {
+  bgMusic.play().catch(() => {});
+});
   });
   videoModal.addEventListener('click', (e) => {
     if (e.target === videoModal) {
       modalVideo.pause();
-      videoModal.classList.remove('show');
+      videoModal.classList.remove('show');    bgMusic.play().catch(() => {});
     }
   });
 
